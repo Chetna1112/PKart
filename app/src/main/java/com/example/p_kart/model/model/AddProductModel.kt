@@ -8,5 +8,5 @@ data class AddProductModel(
     val productID:String?="",
     val productMRP:String?="",
     val productSP:String?="",
-    val productImages:ArrayList<String>
+    val productImages:ArrayList<String> =ArrayList()
 )

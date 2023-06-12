@@ -10,6 +10,7 @@ import com.example.p_kart.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
+    var i=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityMainBinding.inflate(layoutInflater)
@@ -20,6 +21,24 @@ class MainActivity : AppCompatActivity() {
         val popupMenu=PopupMenu(this,null)
         popupMenu.inflate(R.menu.bottom_nav)
         binding.bottomBar.setupWithNavController(popupMenu.menu,navController)
+
+        binding.bottomBar.onItemSelected={
+            when(it) {
+                0 -> {
+                    i = 0;
+                    navController.navigate(R.id.homeFragment)
+                }
+                1 ->{
+                    i=1;
+                }
+                2 ->{
+                    i=2;
+                }
+            }
+        }
+
+
+
 
         //change title on switching fragment
         navController.addOnDestinationChangedListener(object :NavController.OnDestinationChangedListener{
@@ -37,5 +56,12 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if(i==0){
+            finish()
+        }
     }
 }

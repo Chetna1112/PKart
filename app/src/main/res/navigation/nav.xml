@@ -9,7 +9,14 @@
         android:id="@+id/homeFragment"
         android:name="com.example.p_kart.fragment.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_CArdFragment"
+            app:destination="@id/CArdFragment" />
+        <action
+            android:id="@+id/action_homeFragment_self"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/CArdFragment"
         android:name="com.example.p_kart.fragment.CArdFragment"

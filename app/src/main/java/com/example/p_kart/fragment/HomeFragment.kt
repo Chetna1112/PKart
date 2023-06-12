@@ -5,9 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat.getCategory
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.p_kart.R
 import com.example.p_kart.adapter.CategoryAdapter
+import com.example.p_kart.adapter.ProductAdapter
 import com.example.p_kart.databinding.FragmentHomeBinding
 import com.example.p_kart.model.AddProductModel
 import com.example.p_kart.model.CategoryModel
@@ -24,9 +28,23 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding=FragmentHomeBinding.inflate(layoutInflater)
+        val preference=requireContext().getSharedPreferences("info", AppCompatActivity.MODE_PRIVATE)
+        if(preference.getBoolean("isCart",false))
+            findNavController().navigate(R.id.action_homeFragment_to_CArdFragment)
+
+
         getCategory()
+        getSliderImage()
         getProducts()
         return binding.root
+    }
+
+    private fun getSliderImage() {
+        Firebase.firestore.collection("slider").document("item")
+            .get().addOnSuccessListener {
+                Glide.with(requireContext()).load(it.get("img"))
+                    .into(binding.sliderImage)
+            }
     }
 
     private fun getProducts() {
@@ -39,7 +57,7 @@ class HomeFragment : Fragment() {
                     val data=doc.toObject(AddProductModel::class.java)
                     list.add(data!!)
                 }
-            //    binding.categoryRecyclerView.adapter= CategoryAdapter(requireContext(),list)
+              binding.productRecyclerView.adapter= ProductAdapter(requireContext(),list)
             }
     }
 
